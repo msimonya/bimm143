@@ -1,0 +1,74 @@
+---
+title: "Class 6 Homework"
+author: "Mike Simonyan"
+date: 2023-04-26
+format: pdf
+editor: visual
+---
+
+```{r}
+# Can you improve this analysis code?
+library(bio3d)
+s1 <- read.pdb("4AKE")  # kinase with drug
+s2 <- read.pdb("1AKE")  # kinase no drug
+s3 <- read.pdb("1E4Y")  # kinase with drug
+s1.chainA <- trim.pdb(s1, chain="A", elety="CA")
+s2.chainA <- trim.pdb(s2, chain="A", elety="CA")
+s3.chainA <- trim.pdb(s3, chain="A", elety="CA")
+s1.b <- s1.chainA$atom$b
+s2.b <- s2.chainA$atom$b
+s3.b <- s3.chainA$atom$b
+plotb3(s1.b, sse=s1.chainA, typ="l", ylab="Bfactor")
+plotb3(s2.b, sse=s2.chainA, typ="l", ylab="Bfactor")
+plotb3(s3.b, sse=s3.chainA, typ="l", ylab="Bfactor")
+```
+
+We will start by using `read.pdb` to read the protein.
+
+```{r}
+protein_x <- read.pdb("1E4Y")
+```
+
+We will then use `trim.pdb` with chain ("A") and elety ("CA").
+
+```{r}
+protein_x.chainA <- trim.pdb(protein_x, chain="A", elety="CA")
+```
+
+In order to for chain A to be specific to an atom, we must call this function.
+
+```{r}
+protein_x.b <- protein_x.chainA$atom$b
+```
+
+Finally, we will plot a line graph (typ="l")
+
+```{r}
+plotb3(protein_x.b, sse=protein_x.chainA, typ="l", ylab="Bfactor")
+```
+
+```{r}
+# we are turning this into a function 
+plot_protein_x <- function(x){
+  protein_x <- read.pdb(x)
+  protein_x.chainA <- trim.pdb(protein_x, chain="A", elety="CA")
+  protein_x.b <- protein_x.chainA$atom$b
+  plotb3(protein_x.b, sse=protein_x.chainA, typ="l", ylab="Bfactor")
+  
+  
+}
+```
+
+```{r}
+# test to see if the functoin can be generalized to work with any set of input protein structures
+
+plot_protein_x("4AKE")
+plot_protein_x("1AKE")
+plot_protein_x("1E4Y")
+```
+
+			
+
+		
+
+	
